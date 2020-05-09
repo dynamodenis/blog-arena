@@ -1,10 +1,10 @@
 import unittest
-from app.models import Writter
+from app.models import User
 from app import db
 
 class TestUser(unittest.TestCase):
     def setUp(self):
-        self.new_writter=Writter(password="dynamo")
+        self.new_writter=User(password="dynamo")
 
     #test if the password attribute sets the password to the password_hash attribute
     def test_password_set(self):
