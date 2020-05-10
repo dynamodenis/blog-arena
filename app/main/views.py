@@ -99,7 +99,7 @@ def save_picture(data):
     image=Image.open(data)
     image.thumbnail(image_size)
     image.save(pic_path)
-    
+
     return picture_filename
 
 
@@ -129,3 +129,15 @@ def update_settings(user):
 
     return render_template('setting_update.html', update=update_form,title='Settings Update')
     
+@main.route('/delete/comment/<int:comment_id>', methods=['GET','POST'])
+@login_required
+def delete_comment(comment_id):
+    comment=Comment.query.filter_by(id=comment_id).first_or_404()
+    blog=Blogs.query.filter_by(id=comment.blogs.id).first()
+    if blog.user !=current_user:
+        abort(403)
+
+    db.session.delete(comment)
+    db.session.commit()
+    flash('Blog deleted!')
+    return redirect(url_for('main.comment',blog_id=blog.id))
