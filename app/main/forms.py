@@ -27,13 +27,13 @@ class UpdateSettings(FlaskForm):
     picture=FileField('Choose a Profile Picture:', validators=[FileAllowed(['jpeg','jpg','png'])])
     submit=SubmitField('Create Account')
 
-    def validate_username(self,username):
-        if username.data != current_user.username:
-            if User.query.filter_by(username=username.data).first():
+    def validate_username(self,data):
+        if data.data != current_user.username:
+            if User.query.filter_by(username=data.data).first():
                 raise ValidationError('This username is taken! Choose another username.')
 
-    def validate_email(self,email):
-        if email.data != current_user.email:
-            if User.query.filter_by(email=email.data).first():
+    def validate_email(self,data):
+        if data.data != current_user.email:
+            if User.query.filter_by(email=data.data).first():
                 raise ValidationError('This email is taken! Choose another email.')
         

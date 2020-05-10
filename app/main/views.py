@@ -1,9 +1,14 @@
+import secrets
+import os
 from flask import render_template,redirect,url_for,flash,request,abort
 from . import main
 from .forms import UploadBlog,Comments,UpdateSettings
 from ..models import User,Blogs,Comment
 from flask_login import current_user,login_required
 from .. import db
+from manage import app
+from PIL import Image
+
 
 @main.route('/')
 def index():
@@ -83,6 +88,21 @@ def delete_blog(blog_id):
     flash('Blog deleted!')
     return redirect(url_for('main.profile',user=blog.user.username))
 
+
+def save_picture(data):
+    random_hex=secrets.token_hex(7)
+    f_name,f_extention=os.path.splitext(data.filename)
+    picture_filename=random_hex+f_extention
+    pic_path=os.path.join(app.root_path +'/static/profile/'+ picture_filename)
+   
+    image_size=(500,500)
+    image=Image.open(data)
+    image.thumbnail(image_size)
+    image.save(pic_path)
+    
+    return picture_filename
+
+
 @main.route('/update/<string:user>', methods=['GET','POST'])
 @login_required
 def update_settings(user):
@@ -92,6 +112,10 @@ def update_settings(user):
         abort(403)
 
     if update_form.validate_on_submit():
+        if update_form.picture.data:
+            profile_pic=save_picture(update_form.picture.data)
+            user.profile_pic_path=profile_pic
+
         user.email=update_form.email.data
         user.username=update_form.username.data
         user.bio=update_form.bio.data
