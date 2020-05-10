@@ -11,4 +11,4 @@ class UploadBlog(FlaskForm):
                                                     ('Tech & Innovation Blog','Tech & Innovation Blog'),
                                                     ('Others','None of the above')])
     blog=TextAreaField('Write Blog Here:',validators=[DataRequired()])
-    submit=SubmitField('Post Pitch')
+    submit=SubmitField('Post Blog')

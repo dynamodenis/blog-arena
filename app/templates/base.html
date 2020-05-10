@@ -27,8 +27,11 @@
                 <ul class="nav navbar-nav">
                     <li><a href="{{url_for('main.index')}}">Home</a></li>
             </div>
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="nav navbar-nav navbar-right form-inline">
                 {% if current_user.is_authenticated %}
+                    {% if current_user.category=="Blogger"%}
+                    <li><a href="{{url_for('main.uplaod_blog')}}">Upload New Blog</a></li>
+                    {% endif%}
                 <li style="color:white;padding:15px;">{{current_user.username}}</li>
                 <li><a href="{{url_for('auth.logout')}}">Sign out</a></li>
                 {% else %}
