@@ -12,3 +12,7 @@ class UploadBlog(FlaskForm):
                                                     ('Others','None of the above')])
     blog=TextAreaField('Write Blog Here:',validators=[DataRequired()])
     submit=SubmitField('Post Blog')
+
+class Comments(FlaskForm):
+    comment=TextAreaField('Write Comment', validators=[DataRequired()])
+    submit=SubmitField('Comment')

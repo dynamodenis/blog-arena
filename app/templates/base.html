@@ -11,6 +11,10 @@
     {%endif %}
 </head>
 <body class="container-fluid">
+    {% block styles%}
+        {{super()}}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    {% endblock%}
     {% block navbar%}
     <div class="navbar navbar-inverse navbar-dark bg-primary"  role="navigation">
         <div class="container-fluid">
