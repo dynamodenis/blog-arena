@@ -39,3 +39,13 @@ def comment(blog_id):
     print(image)
     return render_template('blog.html',form=form_comment,blog=blog,comments=comment_query,image=image,title='Comments')
 
+@main.route('/user/<string:user>' ,methods=['GET','POST'])
+@login_required
+def profile(user):
+    image=url_for('static',filename='profile/'+current_user.profile_pic_path)
+    user=User.query.filter_by(username=user).first_or_404()
+    page=request.args.get('page',1,type=int)
+    blogs=Blogs.query.filter_by(user=user)\
+        .order_by(Blogs.posted_date.desc())\
+        .paginate(page=page,per_page=10)
+    return render_template('user_profile.html',page='profile',image=image,user=user,blog=blogs)
