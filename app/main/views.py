@@ -9,7 +9,7 @@ from .. import db
 def index():
     page=request.args.get('page',1,type=int)
     blogs=Blogs.query.order_by(Blogs.posted_date.desc()).paginate(page=page,per_page=10)
-    return render_template('index.html',blogs=blogs)
+    return render_template('index.html',blogs=blogs ,page='index')
 
 @main.route('/new/blog', methods=['GET','POST'])
 @login_required
@@ -22,7 +22,7 @@ def uplaod_blog():
         flash('Blog Posted!')
         return redirect(url_for('main.index'))
 
-    return render_template('upload_blog.html',form=form,title='New Blog' ,legend='Upload Blog')
+    return render_template('upload_blog.html',form=form,title='New Blog' ,legend='Upload Blog',page='upload')
 
 @main.route('/<int:blog_id>/comment', methods=['GET','POST'])
 @login_required
