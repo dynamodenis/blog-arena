@@ -1,4 +1,4 @@
-from flask import render_template,redirect,url_for,flash,request
+from flask import render_template,redirect,url_for,flash,request,abort
 from . import main
 from .forms import UploadBlog,Comments
 from ..models import User,Blogs,Comment
@@ -22,7 +22,7 @@ def uplaod_blog():
         flash('Blog Posted!')
         return redirect(url_for('main.index'))
 
-    return render_template('upload_blog.html',form=form,title='New Blog' ,legend='Upload Blog',page='upload')
+    return render_template('new_blog.html',form=form,title='New Blog' ,legend='Upload Blog',page='upload')
 
 @main.route('/<int:blog_id>/comment', methods=['GET','POST'])
 @login_required
@@ -48,4 +48,37 @@ def profile(user):
     blogs=Blogs.query.filter_by(user=user)\
         .order_by(Blogs.posted_date.desc())\
         .paginate(page=page,per_page=10)
-    return render_template('user_profile.html',page='profile',image=image,user=user,blog=blogs)
+    return render_template('user_profile.html',page='profile',image=image,user=user,blogs=blogs)
+
+@main.route('/update/blog/<int:blog_id>', methods=['GET','POST'])
+@login_required
+def update_blog(blog_id):
+    update=UploadBlog()
+    blog=Blogs.query.filter_by(id=blog_id).first_or_404()
+    if blog.user !=current_user:
+        abort(403)
+
+    if update.validate_on_submit():
+        blog.category=update.category.data
+        blog.blog=update.blog.data
+        db.session.commit()
+        return redirect(url_for('main.profile',user=blog.user.username))
+        flash('Blog updated!')
+
+    elif request.method=='GET':
+        update.category.data=blog.category
+        update.blog.data=blog.blog
+        
+    return render_template('update_blog.html',update=update,legend='Update Blog',title='Update Blog')
+
+@main.route('/delete/blog/<int:blog_id>', methods=['POST'])
+@login_required
+def delete_blog(blog_id):
+    blog=Blogs.query.filter_by(id=blog_id).first_or_404()
+    if blog.user !=current_user:
+        abort(403)
+
+    db.session.delete(blog)
+    db.session.commit()
+    flash('Blog deleted!')
+    return redirect(url_for('main.profile',user=blog.user.username))
