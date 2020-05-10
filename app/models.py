@@ -15,7 +15,7 @@ class User(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True)
     username=db.Column(db.String(30),nullable=False,unique=True)
     email=db.Column(db.String(50))
-    password_hash=db.Column(db.Integer)
+    password_hash=db.Column(db.String)
     category=db.Column(db.String)
     profile_pic_path=db.Column(db.String,default='default.png')
     bio=db.Column(db.String)
