@@ -43,6 +43,7 @@ class Blogs(db.Model):
     __tablename__="blogs"
     id=db.Column(db.Integer,primary_key=True)
     blog=db.Column(db.String,nullable=False)
+    category=db.Column(db.String)
     posted_date=db.Column(db.DateTime,default=time_zone)
     upvotes=db.Column(db.Integer)
     user_id=db.Column(db.Integer,db.ForeignKey('users.id'))
