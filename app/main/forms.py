@@ -1,6 +1,9 @@
 from flask_wtf import FlaskForm
-from wtforms import TextAreaField,SubmitField,SelectField
-from wtforms.validators import DataRequired
+from wtforms import TextAreaField,SubmitField,SelectField,StringField
+from wtforms.validators import DataRequired,Email,Length,ValidationError
+from flask_wtf.file import FileField,FileAllowed
+from ..models import User
+from flask_login import current_user
 
 class UploadBlog(FlaskForm):
     category=SelectField('Select Blog Category',validators=[DataRequired()],choices=[('Political Blog','Political Blog'),
@@ -17,3 +20,20 @@ class Comments(FlaskForm):
     comment=TextAreaField('Write Comment', validators=[DataRequired()])
     submit=SubmitField('Comment')
 
+class UpdateSettings(FlaskForm):
+    username=StringField('Type Your Username:')
+    email=StringField('Enter Your Email Address:', validators=[Email()])
+    bio=TextAreaField('Create Bio:')
+    picture=FileField('Choose a Profile Picture:', validators=[FileAllowed(['jpeg','jpg','png'])])
+    submit=SubmitField('Create Account')
+
+    def validate_username(self,username):
+        if username.data != current_user.username:
+            if User.query.filter_by(username=username.data).first():
+                raise ValidationError('This username is taken! Choose another username.')
+
+    def validate_email(self,email):
+        if email.data != current_user.email:
+            if User.query.filter_by(email=email.data).first():
+                raise ValidationError('This email is taken! Choose another email.')
+        

@@ -1,6 +1,6 @@
 from flask import render_template,redirect,url_for,flash,request,abort
 from . import main
-from .forms import UploadBlog,Comments
+from .forms import UploadBlog,Comments,UpdateSettings
 from ..models import User,Blogs,Comment
 from flask_login import current_user,login_required
 from .. import db
@@ -82,3 +82,26 @@ def delete_blog(blog_id):
     db.session.commit()
     flash('Blog deleted!')
     return redirect(url_for('main.profile',user=blog.user.username))
+
+@main.route('/update/<string:user>', methods=['GET','POST'])
+@login_required
+def update_settings(user):
+    update_form=UpdateSettings()
+    user=User.query.filter_by(username=user).first_or_404()
+    if user.username !=current_user.username:
+        abort(403)
+
+    if update_form.validate_on_submit():
+        user.email=update_form.email.data
+        user.username=update_form.username.data
+        user.bio=update_form.bio.data
+        db.session.commit()
+        return redirect(url_for('main.profile',user=user.username))
+
+    elif request.method=='GET':
+        update_form.username.data=user.username
+        update_form.email.data=user.email
+        update_form.bio.data=user.bio
+
+    return render_template('setting_update.html', update=update_form,title='Settings Update')
+    

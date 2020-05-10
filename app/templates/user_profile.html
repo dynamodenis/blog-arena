@@ -27,7 +27,7 @@
                     <p class="card-text">Email Adress: {{user.email}}</p><hr>
                     <p class="card-text">About Me: <span>{{user.bio}}</span></p> 
      
-                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+                    <a href="{{url_for('main.update_settings',user=user.username)}}" class="btn btn-success"><small>Update Settings</small></a>
                     </div>
                 </div>
             </div>
