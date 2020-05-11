@@ -30,6 +30,12 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li {%if page == 'index'%} class="active" {% endif%} ><a href="{{url_for('main.index')}}">Home</a></li>
+                    <li {%if pages == 'political'%} class="active" {% endif%} ><a href="{{url_for('main.political')}}">Political</a></li>
+                    <li {%if pages == 'business'%} class="active" {% endif%} ><a href="{{url_for('main.business')}}">Business</a></li>
+                    <li {%if pages == 'fashion'%} class="active" {% endif%} ><a href="{{url_for('main.fashion')}}">Fashion</a></li>
+                    <li {%if pages == 'entertainment'%} class="active" {% endif%} ><a href="{{url_for('main.entertainment')}}">Entertainment</a></li>
+                    <li {%if pages == 'tech'%} class="active" {% endif%} ><a href="{{url_for('main.technology')}}">Tech & Innovation</a></li>
+                    <li {%if pages == 'sports'%} class="active" {% endif%} ><a href="{{url_for('main.sports')}}">Sports</a></li>
             </div>
             <ul class="nav navbar-nav navbar-right form-inline">
                 {% if current_user.is_authenticated %}
