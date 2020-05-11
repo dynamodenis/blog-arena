@@ -7,7 +7,7 @@ from ..models import User,Blogs,Comment
 from ..request import get_quote
 from flask_login import current_user,login_required
 from .. import db
-from manage import app as app
+# from manage import app as app
 from PIL import Image
 
 
@@ -110,8 +110,8 @@ def save_picture(data):
     random_hex=secrets.token_hex(7)
     f_name,f_extention=os.path.splitext(data.filename)
     picture_filename=random_hex+f_extention
-    pic_path=os.path.join(app.root_path +'/static/profile/'+ picture_filename)
-   
+    pic_path=os.path.join('/home/dynamo/Desktop/projects/PYTHON PROJECTS/blog/app/static/profile/'+ picture_filename)
+    print(pic_path)
     image_size=(500,500)
     image=Image.open(data)
     image.thumbnail(image_size)
