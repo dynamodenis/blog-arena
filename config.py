@@ -1,7 +1,7 @@
 import os
 class Config:
-    # SECRET_KEY='bfe4fdbd3c44cec78ae0'
     SECRET_KEY=os.environ.get('SECRET_KEY')
+    RANDOM_API='http://quotes.stormconsultancy.co.uk/random.json'
 
 class ProdConfig(Config):
     pass
