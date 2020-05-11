@@ -7,7 +7,7 @@ from ..models import User,Blogs,Comment
 from ..request import get_quote
 from flask_login import current_user,login_required
 from .. import db
-from manage import app
+from manage import app as app
 from PIL import Image
 
 
