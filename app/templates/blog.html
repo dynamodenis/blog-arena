@@ -29,7 +29,7 @@
         </div>
         <hr>
         <div class=" card comments">
-            <h4 class="card-header">View all post comments</h4>
+            <h4 class="card-header">View all blog comments</h4>
             <ul>
                 {% for comment in comments%}
                 <li style="list-style-type: none;">
@@ -44,23 +44,16 @@
                             <span class="header">{{comment.user.username}}</span> <br>
                             <span class="rounded">{{comment.comment}} </span><hr>                          
                     </div>
+                    <br>
                     {% if blog.user==current_user%}
                     <div class="col-md-2 col-lg-2 col-sm-2 col-xs-4">
                         <a href="{{url_for('main.delete_comment',comment_id=comment.id)}}" class="btn btn-danger"><small>Delete comment</small></a>
                     </div>
                     {% endif %}
-                    <br>
                 </li>
                 <br>
                 {% endfor%}
             </ul>
-
-            <!-- <div class="card-body">
-
-                <ul>
-                
-                </ul>
-            </div> -->
         </div>
     </div>
     <div class="col-md-1 col-lg-1 col-xs-1"></div>

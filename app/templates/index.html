@@ -15,7 +15,7 @@
             <li class="jumbotron border border-rounded" style="padding-left:40px ; list-style-type: none;">                 
                 <div class="card mb-6 bg-dark text-white">
                     <div class="card-body">
-                        <h4 class="card-title"> <span class="label label-default">Blog Category: {{blog.category}}</span> <span></span><span class="label label-success"><a href="">Posted By: {{blog.user.username}}</a></span></h4>
+                        <h4 class="card-title"> <span class="label label-default">Blog Category: {{blog.category}}</span> <span></span><span class="label label-success"><a href="{{url_for('main.blogger_profile',user=blog.user.username)}}">Posted By: {{blog.user.username}}</a></span></h4>
                         <p class="card-text">{{blog.blog}}</p>
                         <p class="card-text"><sm class="text-muted">Posted On: <span class="badge badge-secondary">{{blog.posted_date.strftime('%Y-%m-%d')}}</span>
                     </div>

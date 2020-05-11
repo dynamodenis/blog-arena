@@ -57,6 +57,21 @@ def profile(user):
         .paginate(page=page,per_page=10)
     return render_template('user_profile.html',page='profile',image=image,user=user,blogs=blogs)
 
+#BLOGGER DETAILS
+@main.route('/blogger/<string:user>' ,methods=['GET','POST'])
+@login_required
+def blogger_profile(user):
+    user=User.query.filter_by(username=user).first_or_404()
+    image=url_for('static',filename='profile/'+ user.profile_pic_path)
+    page=request.args.get('page',1,type=int)
+    blogs=Blogs.query.filter_by(user=user)\
+        .order_by(Blogs.posted_date.desc())\
+        .paginate(page=page,per_page=10)
+    return render_template('blogger_profile.html',page='profile',image=image,user=user,blogs=blogs,title=user.username)
+
+
+
+
 @main.route('/update/blog/<int:blog_id>', methods=['GET','POST'])
 @login_required
 def update_blog(blog_id):
@@ -144,6 +159,19 @@ def delete_comment(comment_id):
     flash('Blog deleted!')
     return redirect(url_for('main.comment',blog_id=blog.id))
 
+#PAGINATION INT THE BLOGGER PROFILE
+
+
+@main.route('/profile/user/<string:username>')
+def posted(username):
+    user=User.query.filter_by(username=username).first_or_404()
+    image=url_for('static',filename='profile/'+ user.profile_pic_path)
+    page=request.args.get('page',1,type=int)
+    blogs=Blogs.query.filter_by(user=user)\
+            .order_by(Blogs.posted_date.desc())\
+            .paginate(page=page,per_page=10)
+
+    return render_template('blogger_profile.html',blogs=blogs,title=user.username,user=user,image=image)
 #NAVBAR URLS FOR DIFFERENT BLOG CATEGORIES
 
 @main.route('/blog/political')
