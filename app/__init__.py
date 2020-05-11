@@ -31,7 +31,7 @@ def create_app(config_name):
     #REGISTER CONFIGURASTION
     app.config.from_object(config_options[config_name])
 
-    from .models import create_configuration
+    from .request import create_configuration
     create_configuration(app)
 
 

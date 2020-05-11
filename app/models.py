@@ -73,8 +73,8 @@ class  Comment(db.Model):
         return comment
 
 
-class Quotes():
-    def __init__(self,id,author,quote):
-        self.id=id
-        self.author=author
-        self.quote=quote
+# class Quotes():
+#     def __init__(self,id,author,quote):
+#         self.id=id
+#         self.author=author
+#         self.quote=quote

@@ -3,7 +3,7 @@ import os
 from flask import render_template,redirect,url_for,flash,request,abort
 from . import main
 from .forms import UploadBlog,Comments,UpdateSettings
-from ..models import User,Blogs,Comment,Quotes
+from ..models import User,Blogs,Comment
 from ..request import get_quote
 from flask_login import current_user,login_required
 from .. import db
@@ -14,7 +14,6 @@ from PIL import Image
 @main.route('/')
 def index():
     quotes=get_quote()
-    print(quotes)
     page=request.args.get('page',1,type=int)
     blogs=Blogs.query.order_by(Blogs.posted_date.desc()).paginate(page=page,per_page=10)
     return render_template('index.html',blogs=blogs ,page='index',quotes=quotes)
