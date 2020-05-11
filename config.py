@@ -4,7 +4,7 @@ class Config:
     RANDOM_API='http://quotes.stormconsultancy.co.uk/random.json'
 
 class ProdConfig(Config):
-    pass
+    SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL")
 
 class DevConfig(Config):
     SQLALCHEMY_DATABASE_URI = 'postgresql+psycopg2://dynamo:den28041997is@localhost/blogs'
